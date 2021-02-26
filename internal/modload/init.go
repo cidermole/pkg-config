@@ -37,7 +37,7 @@ func HasModRoot() bool {
 				modRoot = vendorRoot
 			}
 			return true
-		} else if cwd == "/" {
+		} else if cwd == filepath.Dir(cwd) {
 			return false
 		}
 		cwd = filepath.Dir(cwd)
@@ -49,7 +49,7 @@ func HasModRoot() bool {
 // of a vendor directory.
 func findVendorMod(cwd string) (string, bool) {
 	cwd = filepath.Dir(cwd)
-	for cwd != "/" {
+	for cwd != filepath.Dir(cwd) {
 		modPath := filepath.Join(cwd, "go.mod")
 		if _, err := os.Stat(modPath); err == nil {
 			vendorPath := filepath.Join(cwd, "vendor")
