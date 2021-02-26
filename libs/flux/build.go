@@ -392,7 +392,7 @@ func getVersion(dir string, logger *zap.Logger) (string, error) {
 
 func getVersionFromPath(dir string) (string, error) {
 	reModulePath := regexp.MustCompile(`/github\.com/influxdata\/flux@(v\d+\.\d+\.\d+.*)$`)
-	m := reModulePath.FindStringSubmatch(dir)
+	m := reModulePath.FindStringSubmatch(strings.ReplaceAll(dir, string(os.PathSeparator), "/"))
 	if m == nil {
 		return "", fmt.Errorf("directory path did not match the module pattern: %s", dir)
 	}
